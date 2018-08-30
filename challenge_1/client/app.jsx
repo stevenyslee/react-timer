@@ -29,48 +29,23 @@ export class App extends Component {
 
     this.state = {
       data: [],
-      offset: 0,
-      pageCount: 0
+      pageCount: 1,
+      value: ''
     }
     this.handlePageClick = this.handlePageClick.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.loadCommentsFromServer = this.loadCommentsFromServer.bind(this);
   }
 
   loadCommentsFromServer() {
     $.ajax({
-      url: `http://localhost:3000/events?q=orange&_page=${this.state.offset}&_limit=10`,
-      // data: {
-        // limit: 10,
-        // offset: this.state.offset
-        // page: 1
-      // },
+      url: `http://localhost:3000/events?q=${this.state.value}&_page=${this.state.pageCount}&_limit=10`,
       dataType: 'json',
       type: 'GET',
       success: (data, textStatus, request) => {
-        // this.setState({
-        //   data: data
-        //   pageCount: Math.ceil(data.length / 10)
-        // });
-        // $.ajax({
-        //   url: `http://localhost:3000/events?_page=${this.state.offset}&_limit=10`,
-        //   dataType: 'json',
-        //   type: 'GET',
-        //   success: (data) => {
-        //     console.log(data);
-        //     this.setState({
-        //       data: data
-        //     });
-        //   },
-        //   error: (xhr, status, err) => {
-        //     console.error(err.toString());
-        //   }
-        // });
-
-        console.log('data', data);
-        console.log('textStatus', textStatus);
-        console.log('request', request);
         this.setState({
-          data: data
-          // pageCount: Math.ceil(data.length / 10)
+          data: data,
+          pageCount: Math.ceil(Number(request.getResponseHeader('x-Total-Count')) / 10)
         });
       },
       error: (xhr, status, err) => {
@@ -84,17 +59,25 @@ export class App extends Component {
   }
 
   handlePageClick(data) {
-    let selected = data.selected;
-    let offset = Math.ceil(selected * 20);
-
-    this.setState({offset: offset}, () => {
+    this.setState({pageCount: data.selected + 1}, () => {
       this.loadCommentsFromServer();
     });
   };
 
+  handleChange(event) {
+    this.setState({value: event.target.value});
+  }
+
   render() {
     return (
       <div className="eventBox">
+        <form onSubmit={(event) => {this.handlePageClick({selected: 0}); event.preventDefault()}}>
+          <label>
+            Search:
+            <input type="text" value={this.state.value} onChange={this.handleChange} />
+          </label>
+          <input type="submit" value="Submit" />
+        </form>
         <CommentList
           data={this.state.data}
         />
