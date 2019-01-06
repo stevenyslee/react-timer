@@ -1,13 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import functionalComponent from './functionalComponent.jsx';
+import FunctionalComponent from './functionalComponent.jsx';
  
 class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { };
+  }
+  
   render() {
     return (
       <div>
         <h1>Hello</h1>
-        <functionalComponent />
+        <FunctionalComponent />
       </div>
     );
   }
