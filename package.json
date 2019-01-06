@@ -1,5 +1,5 @@
 {
-  "name": "breaking-bad-generator",
+  "name": "React-Webpack4-Starter",
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "express": "^4.16.3",
+    "nodemon": "^1.18.9",
     "react": "^16.4.2",
     "react-dom": "^16.4.2",
     "reactstrap": "^6.5.0"
