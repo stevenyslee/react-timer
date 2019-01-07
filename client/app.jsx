@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import FunctionalComponent from './functionalComponent.jsx';
+import Timer from './timer/Timer.jsx'
+
  
 class App extends React.Component {
   constructor(props) {
@@ -11,8 +12,8 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <h1>Hello</h1>
-        <FunctionalComponent />
+        <Timer minutes={'1'} seconds={'03'} />
+        <Timer />
       </div>
     );
   }
